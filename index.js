@@ -6,7 +6,9 @@ const { v4: uuid } = require("uuid");
 var bodyParser = require('body-parser')
  
 var app = express()
- 
+
+app.use(cors());
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
