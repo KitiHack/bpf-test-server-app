@@ -19,19 +19,25 @@ let data = {};
 
 app.listen(4000, () => console.log("API is running"));
 
-app.get("/hello", (req, res) => {
+app.get("/subscription-data", (req, res) => {
   res.send({
     data: data
   });
 });
 
-app.post('/set-hello', (req, res) => {
+app.post('/astrus-webhook', (req, res) => {
   console.log(req.body.userAddress);
   const userAddress = req.body.userAddress;
   const isSubscribed = req.body.isSubscribed;
+  const chain = req.body.chain;
+  const event = req.body.lastEvent;
+
+  const prevEvents = data[userAddress] ? data[userAddress].events : [];
 
   data[userAddress] = {
-    isSubscribed: isSubscribed
+    isSubscribed: isSubscribed,
+    chain: chain,
+    events: prevEvents.push(event)
   };
 
   res.send({
